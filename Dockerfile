@@ -58,10 +58,10 @@ else\n\
     echo "WARNING: /runpod-volume/models not found"\n\
 fi\n\
 \n\
-# Start ComfyUI in background\n\
+# Start ComfyUI in background with fixed host settings\n\
 echo "Starting ComfyUI..."\n\
 cd /workspace/ComfyUI\n\
-python3 main.py --listen 0.0.0.0 --port 8188 &\n\
+python3 main.py --listen 127.0.0.1 --port 8188 --disable-auto-launch &\n\
 COMFY_PID=$!\n\
 \n\
 # Wait for ComfyUI to start\n\

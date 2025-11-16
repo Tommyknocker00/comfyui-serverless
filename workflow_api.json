@@ -1,27 +1,13 @@
 {
   "2": {
     "inputs": {
-      "text": "PROMPT_PLACEHOLDER",
-      "clip": ["7", 1]
-    },
-    "class_type": "CLIPTextEncode"
-  },
-  "3": {
-    "inputs": {
-      "text": "score_6, score_5, score_4, worst quality, low quality, lowres, blurry, bad anatomy, bad proportions, bad hands, extra limbs, extra fingers, fused limbs, missing fingers, mutated hands, ugly face, deformed face, cloned face, disfigured, poorly drawn, mature, censored, watermark, jpeg artifacts, deformed face, cartoon, bad anatomy",
-      "clip": ["7", 1]
-    },
-    "class_type": "CLIPTextEncode"
-  },
-  "4": {
-    "inputs": {
       "width": 1024,
       "height": 1024,
       "batch_size": 1
     },
     "class_type": "EmptyLatentImage"
   },
-  "5": {
+  "3": {
     "inputs": {
       "seed": 0,
       "steps": 20,
@@ -29,19 +15,34 @@
       "sampler_name": "euler",
       "scheduler": "simple",
       "denoise": 1,
-      "model": ["7", 0],
-      "positive": ["2", 0],
-      "negative": ["3", 0],
-      "latent_image": ["4", 0]
+      "model": [
+        "7",
+        0
+      ],
+      "positive": [
+        "8",
+        0
+      ],
+      "negative": [
+        "6",
+        0
+      ],
+      "latent_image": [
+        "2",
+        0
+      ]
     },
     "class_type": "KSampler"
   },
   "6": {
     "inputs": {
-      "samples": ["5", 0],
-      "vae": ["7", 2]
+      "text": "score_6, score_5, score_4, worst quality, low quality, lowres, blurry,bad anatomy, bad proportions, bad hands,\nextra limbs, extra fingers, fused limbs, missing fingers, mutated hands, ugly face, deformed face, cloned face, disfigured, poorly drawn, mature, censored, watermark, jpeg artifacts,deformed face, cartoon, bad anatomy",
+      "clip": [
+        "7",
+        1
+      ]
     },
-    "class_type": "VAEDecode"
+    "class_type": "CLIPTextEncode"
   },
   "7": {
     "inputs": {
@@ -51,8 +52,34 @@
   },
   "8": {
     "inputs": {
-      "filename_prefix": "api_output",
-      "images": ["6", 0]
+      "text": "PROMPT_PLACEHOLDER",
+      "clip": [
+        "7",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "4": {
+    "inputs": {
+      "samples": [
+        "3",
+        0
+      ],
+      "vae": [
+        "7",
+        2
+      ]
+    },
+    "class_type": "VAEDecode"
+  },
+  "5": {
+    "inputs": {
+      "filename_prefix": "%date:dd-MM-yyyy%/image_%KSampler.seed%",
+      "images": [
+        "4",
+        0
+      ]
     },
     "class_type": "SaveImage"
   }
