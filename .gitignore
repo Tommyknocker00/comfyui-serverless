@@ -1,0 +1,7 @@
+test_api.py
+*.pyc
+__pycache__
+.DS_Store
+*.png
+*.jpg
+output_*
