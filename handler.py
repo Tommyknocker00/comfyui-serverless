@@ -1,7 +1,6 @@
 import runpod
 import json
-import urllib.request
-import urllib.parse
+import requests
 import time
 import base64
 import os
@@ -12,22 +11,26 @@ COMFY_URL = "http://127.0.0.1:8188"
 
 def queue_prompt(prompt):
     """Stuur workflow naar ComfyUI queue"""
-    data = json.dumps({"prompt": prompt}).encode('utf-8')
-    req = urllib.request.Request(f"{COMFY_URL}/prompt", data=data, headers={'Content-Type': 'application/json'})
-    response = urllib.request.urlopen(req)
-    return json.loads(response.read())
+    response = requests.post(
+        f"{COMFY_URL}/prompt",
+        json={"prompt": prompt},
+        headers={'Content-Type': 'application/json'}
+    )
+    response.raise_for_status()
+    return response.json()
 
 def get_image(filename, subfolder, folder_type):
     """Haal gegenereerde image op van ComfyUI"""
-    params = urllib.parse.urlencode({"filename": filename, "subfolder": subfolder, "type": folder_type})
-    url = f"{COMFY_URL}/view?{params}"
-    with urllib.request.urlopen(url) as response:
-        return response.read()
+    params = {"filename": filename, "subfolder": subfolder, "type": folder_type}
+    response = requests.get(f"{COMFY_URL}/view", params=params)
+    response.raise_for_status()
+    return response.content
 
 def get_history(prompt_id):
     """Check of workflow klaar is"""
-    with urllib.request.urlopen(f"{COMFY_URL}/history/{prompt_id}") as response:
-        return json.loads(response.read())
+    response = requests.get(f"{COMFY_URL}/history/{prompt_id}")
+    response.raise_for_status()
+    return response.json()
 
 def wait_for_completion(prompt_id, timeout=300):
     """Wacht tot image klaar is (max 5 min)"""
